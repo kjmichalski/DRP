@@ -1,15 +1,38 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb 19 16:41:15 2020
 
 @author: katherinemichalski
+Reads data quality files and 
 """
 
 # Python3 program to find groups of unknown 
 # Points using K nearest neighbour algorithm. 
 
-import math 
+import math
+import csv
+
+def getData(file='winequality-white.csv'):
+    def convert(value):
+        try:
+            return(int(value))
+        except:
+            try:
+                return(float(value))
+            except:
+                return(value)
+    data = []
+    with open(file, newline='') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=',')
+        for row in reader:
+            for key in row.keys():
+                row[key] = convert(row[key])
+            data.append(row)
+            #print(len(data))
+    print("Read {} records.".format(len(data)))
+    return(data)
+
+
 
 def classifyAPoint(points,p,k=3): 
 	''' 
@@ -74,4 +97,3 @@ def main():
 if __name__ == '__main__': 
 	main() 
 	
-# This code is contributed by Atul Kumar (www.fb.com/atul.kr.007) 
